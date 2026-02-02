@@ -30,6 +30,13 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install NDK and Build Tools
+      run: |
+        sdkmanager --install "ndk;29.0.14206865" "build-tools;36.1.0" "platforms;android-36"
+
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
 
@@ -38,11 +45,17 @@ jobs:
         chmod +x gradlew
         ./gradlew :zygisk:assembleRelease
 
-    - name: Upload Module Zip
+    - name: Verify build output
+      run: |
+        ls -la module/zygisk/ || echo "No zygisk .so files found"
+        ls -la out/
+
+    - name: Upload Module Artifact
       uses: actions/upload-artifact@v4
       with:
         name: MockGPS-${{ steps.datetime.outputs.stamp }}
-        path: out/MockGPS.zip
+        path: module/
+        if-no-files-found: error
 
     - name: Create Release
       if: github.event.inputs.create_release == 'true'
