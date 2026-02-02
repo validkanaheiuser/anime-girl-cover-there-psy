@@ -3,4 +3,5 @@ name=MockGPS
 version=v2.0.0
 versionCode=200
 author=MockGPS
-description=GPS location spoofing + developer options hiding via ART method hooks. No mock GPS app needed. Companion app provides map UI.
+description=GPS location spoofing + developer options hiding via ART method hooks. No mock GPS app needed.
+webRoot=true
