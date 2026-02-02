@@ -3,10 +3,14 @@ plugins {
 }
 
 android {
-    namespace = "com.mockgps.zygisk"
+    namespace = "es.thoitiet.spooxmanager"
     compileSdk = 36
     ndkVersion = "29.0.14206865"
     buildToolsVersion = "36.1.0"
+
+    buildFeatures {
+        prefab = true
+    }
 
     packaging {
         resources {
@@ -27,7 +31,7 @@ android {
 
                 arguments(
                     "-DCMAKE_BUILD_TYPE=Release",
-                    "-DANDROID_STL=c++_static",
+                    "-DANDROID_STL=none",
                     "-DCMAKE_JOB_POOLS=compile=${Runtime.getRuntime().availableProcessors()}",
                     "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON",
                     "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
@@ -46,7 +50,7 @@ android {
                 cFlags += "-std=c23"
                 cFlags += commonFlags
 
-                cppFlags += "-std=c++17"
+                cppFlags += "-std=c++26"
                 cppFlags += commonFlags
             }
         }
@@ -71,6 +75,11 @@ android {
             version = "3.30.5+"
         }
     }
+}
+
+dependencies {
+    implementation(libs.cxx)
+    implementation(libs.hiddenapibypass)
 }
 
 afterEvaluate {

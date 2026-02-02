@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.30.5)
 
 project("zygisk")
 
-link_libraries(log dl)
+link_libraries(log)
 
-add_library(zygisk SHARED module.cpp)
+find_package(cxx REQUIRED CONFIG)
+
+link_libraries(cxx::cxx)
+
+add_library(zygisk SHARED zygisk.cpp local_cxa_atexit_finalize_impl/atexit.cpp)
