@@ -34,12 +34,13 @@ android {
                 )
 
                 val commonFlags = setOf(
+                    "-fno-exceptions",
+                    "-fno-rtti",
                     "-fvisibility=hidden",
+                    "-fvisibility-inlines-hidden",
                     "-ffunction-sections",
                     "-fdata-sections",
-                    "-Os",
-                    "-Wall",
-                    "-Wextra"
+                    "-w"
                 )
 
                 cFlags += "-std=c23"
@@ -53,7 +54,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            multiDexEnabled = false
+            proguardFiles += file("proguard-rules.pro")
         }
     }
 

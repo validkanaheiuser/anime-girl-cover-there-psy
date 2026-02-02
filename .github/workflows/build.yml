@@ -43,12 +43,22 @@ jobs:
     - name: Build with Gradle
       run: |
         chmod +x gradlew
-        ./gradlew :zygisk:assembleRelease
+        ./gradlew :zygisk:assembleRelease --stacktrace --info
 
-    - name: Verify build output
+    - name: Debug - Check build output
+      if: always()
       run: |
-        ls -la module/zygisk/ || echo "No zygisk .so files found"
-        ls -la out/
+        echo "=== module/ directory ==="
+        find module/ -type f 2>/dev/null || echo "module/ not found"
+        echo ""
+        echo "=== out/ directory ==="
+        ls -la out/ 2>/dev/null || echo "out/ not found"
+        echo ""
+        echo "=== zygisk build intermediates ==="
+        find zygisk/build/ -name "*.so" 2>/dev/null || echo "No .so files found"
+        echo ""
+        echo "=== zygisk build errors ==="
+        find zygisk/build/ -name "*.log" -exec tail -20 {} \; 2>/dev/null || echo "No build logs"
 
     - name: Upload Module Artifact
       uses: actions/upload-artifact@v4

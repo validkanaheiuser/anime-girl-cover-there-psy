@@ -14,7 +14,7 @@ tasks.register("copyZygiskFiles") {
             .resolve("intermediates/stripped_native_libs/release/stripReleaseDebugSymbols/out/lib")
 
         zygiskSoDir.walk()
-            .filter { it.isFile && it.name == "libmockgps.so" }
+            .filter { it.isFile && it.name == "libzygisk.so" }
             .forEach { soFile ->
                 val abiFolder = soFile.parentFile.name
                 val destination = moduleFolder.resolve("zygisk/$abiFolder.so")
